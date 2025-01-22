@@ -7,15 +7,15 @@ class ParticipantSerializer(serializers.ModelSerializer):
         fields = ['name', 'img']
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    participant = ParticipantSerializer(many=True)  # To handle multiple participants
+    additional_visitor = ParticipantSerializer(many=True)  # To handle multiple participants
 
     class Meta:
         model = Appointment
-        fields = ['id','visitor_name','visitor_img', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_adress','purpose_of_visit' ,'participant']
+        fields = ['id','visitor_name','visitor_img', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_adress','purpose_of_visit' ,'additional_visitor']
 
     def create(self, validated_data):
         # Extract participants from validated data
-        participants_data = validated_data.pop('participant')
+        participants_data = validated_data.pop('additional_visitor')
         
         # Create the appointment
         appointment = Appointment.objects.create(**validated_data)
