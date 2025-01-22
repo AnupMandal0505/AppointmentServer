@@ -7,6 +7,7 @@ from appointment.Serializers.AppointmentSerializer import AppointmentSerializer
 # http://127.0.0.1:8000/api/appointments/create-appointment/
 class AppointmentCreateView(APIView):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = AppointmentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
