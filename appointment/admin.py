@@ -11,6 +11,6 @@ class ItemInline(admin.TabularInline):  # Use StackedInline for a vertical layou
     show_change_link = True  # Optional: Add "Edit" links for related items
 
 @admin.register(Appointment)
-class ShoppingListAdmin(admin.ModelAdmin):
+class VisitorsAdmin(admin.ModelAdmin):
     inlines = [ItemInline]
     list_display = ('visitor_name',"id")

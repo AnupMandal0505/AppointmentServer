@@ -47,8 +47,8 @@ class AdditionalVisitor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     # email = models.EmailField()
-    participants = models.ForeignKey(Appointment,on_delete=models.CASCADE, related_name="participant",default=None)  # Multiple participants
-    img = models.ImageField(upload_to='participant_img/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
+    participants = models.ForeignKey(Appointment,on_delete=models.CASCADE, related_name="additional_visitor",default=None)  # Multiple participants
+    img = models.ImageField(upload_to='additional_visitor_image/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
 
     def __str__(self):
         return self.name
