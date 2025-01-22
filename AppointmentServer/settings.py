@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['appointmentserver-tgqj.onrender.com', '127.0.0.1', 'localhost']
 
+# settings.py
+DOMAIN_NAME = 'https://appointmentserver-tgqj.onrender.com'  # Replace with your actual domain
 
 # Application definition
 

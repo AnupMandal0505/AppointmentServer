@@ -31,7 +31,7 @@ class Appointment(models.Model):
     company_name = models.CharField(max_length=100,default="?None")
     company_adress = models.CharField(max_length=100,default="?None")
     purpose_of_visit = models.CharField(max_length=100,default="?None")
-    visitor_img = models.ImageField(upload_to='visitor_img/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
+    visitor_img = models.ImageField(upload_to='visitor_img/' ,blank=True)  # 'product_images/' is the folder where the image will be saved
 
     # Add creation and update tracking fields
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
@@ -48,7 +48,7 @@ class AdditionalVisitor(models.Model):
     name = models.CharField(max_length=100)
     # email = models.EmailField()
     participants = models.ForeignKey(Appointment,on_delete=models.CASCADE, related_name="additional_visitor",default=None)  # Multiple participants
-    img = models.ImageField(upload_to='additional_visitor_image/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
+    img = models.ImageField(upload_to='additional_visitor_image/', blank=True)  # 'product_images/' is the folder where the image will be saved
 
     def __str__(self):
         return self.name
