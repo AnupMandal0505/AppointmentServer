@@ -8,10 +8,10 @@ from rest_framework.authtoken.models import Token
 from user.models import User
 # http://127.0.0.1:8000/api/login
 class LoginAPI(APIView):
-
     def post(self, request):
         try:
             data = request.data
+            print(data)
             if not User.objects.filter(username=data['username'],role=data['role']).exists():
                 error_response = {
                     'status': 400,

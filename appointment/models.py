@@ -5,6 +5,7 @@ import uuid
 
 STATUS_CHOICES = (
         ('PENDING','Pending'),
+        ('GOINGON', 'Going On'),
         ('IN_PROGRESS', 'In Progress'),
         ('COMPLETED','Completed'),
 )
