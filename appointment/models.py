@@ -40,7 +40,7 @@ class Appointment(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="updated_appointments")  # User who last updated the appointment
 
     def __str__(self):
-        return f"{self.client} - {self.date}"
+        return f"{self.visitor_name} - {self.date}"
     
 
 class AdditionalVisitor(models.Model):
@@ -51,4 +51,4 @@ class AdditionalVisitor(models.Model):
     img = models.ImageField(upload_to='participant_img/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
 
     def __str__(self):
-        return self.email
+        return self.name
