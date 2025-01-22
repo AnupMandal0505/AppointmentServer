@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from appointment.models import Appointment, Participant
+from appointment.models import Appointment, AdditionalVisitor
 
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Participant
-        fields = ['name', 'email']
+        model = AdditionalVisitor
+        fields = ['name', 'img']
 
 class AppointmentSerializer(serializers.ModelSerializer):
     participant = ParticipantSerializer(many=True)  # To handle multiple participants
 
     class Meta:
         model = Appointment
-        fields = ['client', 'email', 'phone', 'date', 'description', 'status', 'assigned_to', 'participant']
+        fields = ['id','visitor_name','visitor_img', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_adress','purpose_of_visit' ,'participant']
 
     def create(self, validated_data):
         # Extract participants from validated data
@@ -22,6 +22,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         # Create participants
         for participant_data in participants_data:
-            Participant.objects.create(participants=appointment, **participant_data)
+            AdditionalVisitor.objects.create(participants=appointment, **participant_data)
         
         return appointment

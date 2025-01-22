@@ -10,7 +10,7 @@ STATUS_CHOICES = (
 )
 class Appointment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client = models.CharField(max_length=100)
+    visitor_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     date = models.DateField()
@@ -28,6 +28,10 @@ class Appointment(models.Model):
         blank=True,
         related_name="assigned_appointments"
     ) 
+    company_name = models.CharField(max_length=100,default="?None")
+    company_adress = models.CharField(max_length=100,default="?None")
+    purpose_of_visit = models.CharField(max_length=100,default="?None")
+    visitor_img = models.ImageField(upload_to='visitor_img/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
 
     # Add creation and update tracking fields
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
@@ -39,11 +43,12 @@ class Appointment(models.Model):
         return f"{self.client} - {self.date}"
     
 
-class Participant(models.Model):
+class AdditionalVisitor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
-    email = models.EmailField()
+    # email = models.EmailField()
     participants = models.ForeignKey(Appointment,on_delete=models.CASCADE, related_name="participant",default=None)  # Multiple participants
+    img = models.ImageField(upload_to='participant_img/', null=True, blank=True)  # 'product_images/' is the folder where the image will be saved
 
     def __str__(self):
         return self.email

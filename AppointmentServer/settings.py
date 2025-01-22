@@ -203,3 +203,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://10.0.2.2:8081",  # For Android emulator
 
 ]
+
+
+# Add these settings to handle media files
+MEDIA_URL = '/media/'  # URL to access the uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
