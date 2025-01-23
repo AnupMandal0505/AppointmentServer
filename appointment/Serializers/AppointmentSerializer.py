@@ -31,7 +31,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Extract participants from validated data
-        participants_data = validated_data.pop('additional_visitor')
+        participants_data = validated_data.pop('additional_visitor', [])
         
         # Create the appointment
         appointment = Appointment.objects.create(**validated_data)
