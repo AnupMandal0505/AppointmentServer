@@ -3,10 +3,17 @@ from rest_framework.response import Response
 from rest_framework import status
 from appointment.models import Appointment
 from appointment.Serializers.AppointmentSerializer import AppointmentSerializer
+from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+class BaseAuthentication(viewsets.ViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 # http://127.0.0.1:8000/api/appointments/create-appointment/
-class AppointmentCreateView(APIView):
-    def post(self, request, *args, **kwargs):
+class AppointmentCreateView(BaseAuthentication):
+    def create(self, request, *args, **kwargs):
         print(request.data)
         serializer = AppointmentSerializer(data=request.data)
         if serializer.is_valid():
@@ -17,8 +24,8 @@ class AppointmentCreateView(APIView):
 
 
 # http://127.0.0.1:8000/api/appointments/get-appointments/?status=PENDING&client=j
-class AppointmentListView(APIView):
-    def get(self, request, *args, **kwargs):
+class AppointmentListView(BaseAuthentication):
+    def list(self, request, *args, **kwargs):
         # Get all query parameters
         query_params = request.GET.dict()  # Convert QueryDict to a dictionary
         
@@ -37,7 +44,7 @@ class AppointmentListView(APIView):
 
 # http://127.0.0.1:8000/api/appointments/update-appointments/
 
-class AppointmentUpdateView(APIView):
+class AppointmentUpdateView(BaseAuthentication):
     """
     Update an existing appointment.
     """
@@ -62,11 +69,11 @@ class AppointmentUpdateView(APIView):
 
 
 
-class DeleteAppointmentView(APIView):
+class DeleteAppointmentView(BaseAuthentication):
     """
     Delete an existing appointment.
     """
-    def delete(self, request):
+    def destroy(self, request):
         if not request.GET.get("visitorId"):
             return Response({"error": "Missing 'id' parameter"}, status=status.HTTP_400_BAD_REQUEST)
         try:
