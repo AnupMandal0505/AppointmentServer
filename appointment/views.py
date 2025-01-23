@@ -69,7 +69,7 @@ class DeleteAppointmentView(APIView):
         if not request.GET.get("id"):
             return Response({"error": "Missing 'id' parameter"}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            appointment = Appointment.objects.get(id=request.GET.get("id"))
+            appointment = Appointment.objects.get(id=request.GET.get("visitorId"))
         except Appointment.DoesNotExist:
             return Response({"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND)
         appointment.delete()
