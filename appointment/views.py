@@ -11,11 +11,17 @@ class BaseAuthentication(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def list(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+        print(token)  # Token ko print karega
+        # ... baaki code
+
 # http://127.0.0.1:8000/api/appointments/create-appointment/
 class AppointmentCreateView(BaseAuthentication):
     def create(self, request, *args, **kwargs):
         print(request.data)
         serializer = AppointmentSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save(created_by=request.user, assigned_to=request.user.gm)
             # serializer.save()
