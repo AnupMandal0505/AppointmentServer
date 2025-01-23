@@ -8,13 +8,14 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 class BaseAuthentication(viewsets.ViewSet):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def list(self, request):
         token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
         print(token)  # Token ko print karega
         # ... baaki code
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+ 
 
 # http://127.0.0.1:8000/api/appointments/create-appointment/
 class AppointmentCreateView(BaseAuthentication):
