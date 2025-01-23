@@ -8,13 +8,13 @@ class UserAdmin(UserAdmin):
     # Add custom fields to the "add user" and "change user" forms in the admin
     fieldsets = UserAdmin.fieldsets + (
         ('Custom Fields', {
-            'fields': ('role', 'phone_number'),
+            'fields': ('gm','role', 'phone_number'),
         }),
     )
     # Add custom fields to the "create user" form
     add_fieldsets = UserAdmin.add_fieldsets + (
         ('Custom Fields', {
-            'fields': ('role', 'phone_number'),
+            'fields': ('gm','role', 'phone_number'),
         }),
     )
 
