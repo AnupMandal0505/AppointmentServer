@@ -37,24 +37,40 @@ class AppointmentListView(APIView):
 # http://127.0.0.1:8000/api/appointments/update-appointments/
 
 class AppointmentUpdateView(APIView):
-    def patch(self, request, *args, **kwargs):
-        # Retrieve 'pk' from query parameters
-        pk = request.GET.get('pk')
-
+    """
+    Update an existing appointment.
+    """
+    def patch(self, request: object) -> Response:
+        pk = request.GET.get("pk")
         if not pk:
             return Response({"error": "Missing 'pk' parameter"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            # Fetch the object to be updated
+            pk = int(pk)
+        except ValueError:
+            return Response({"error": "Invalid 'pk' parameter"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
             appointment = Appointment.objects.get(pk=pk)
         except Appointment.DoesNotExist:
             return Response({"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        # Partially update the object with only the provided fields
         serializer = AppointmentSerializer(appointment, data=request.data, partial=True)
-
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class DeleteAppointmentView(APIView):
+    """
+    Delete an existing appointment.
+    """
+    def delete(self, request: object) -> Response:
+        if not request.GET.get("id"):
+            return Response({"error": "Missing 'id' parameter"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            appointment = Appointment.objects.get(id=request.GET.get("id"))
+        except Appointment.DoesNotExist:
+            return Response({"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND)
+        appointment.delete()
+        return Response({"message": "Appointment deleted successfully"}, status=status.HTTP_200_OK)

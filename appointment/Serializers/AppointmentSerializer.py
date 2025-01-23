@@ -27,7 +27,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id','visitor_name', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_adress','purpose_of_visit' ,'additional_visitor']
+        fields = ['id','visitor_name', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_address','purpose_of_visit' ,'additional_visitor']
 
     def create(self, validated_data):
         # Extract participants from validated data

@@ -29,7 +29,7 @@ class Appointment(models.Model):
         related_name="assigned_appointments"
     ) 
     company_name = models.CharField(max_length=100,default="?None")
-    company_adress = models.CharField(max_length=100,default="?None")
+    company_address = models.CharField(max_length=100,default="?None")
     purpose_of_visit = models.CharField(max_length=100,default="?None")
     visitor_img = models.ImageField(upload_to='visitor_img/' ,blank=True)  # 'product_images/' is the folder where the image will be saved
 
