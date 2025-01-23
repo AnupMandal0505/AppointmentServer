@@ -7,6 +7,7 @@ STATUS_CHOICES = (
         ('PENDING','Pending'),
         ('IN_PROGRESS', 'In Progress'),
         ('COMPLETED','Completed'),
+        ('NEXT','Next'),
 )
 class Appointment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
