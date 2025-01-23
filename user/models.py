@@ -14,6 +14,7 @@ class User(AbstractUser):
         choices=ROLE_CHOICES,
         default='PA'
     )
+    gm = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='team_members')
 
     
 

@@ -28,14 +28,18 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = ['id','visitor_name', 'email', 'phone', 'date', 'description', 'status', 'assigned_to','company_name','company_address','purpose_of_visit' ,'additional_visitor']
-
+        extra_kwargs = {
+                    'created_by': {'read_only': False, 'write_only': True},
+                    'assigned_to': {'read_only': False, 'write_only': True}
+        }
     def create(self, validated_data):
         # Extract participants from validated data
         participants_data = validated_data.pop('additional_visitor', [])
         
         # Create the appointment
-        appointment = Appointment.objects.create(**validated_data)
-        
+        # appointment = Appointment.objects.create(**validated_data)
+        appointment = Appointment.objects.create(created_by=self.context['request'].user, assigned_to=self.context['request'].user.gm, **validated_data)
+   
         # Create participants
         for participant_data in participants_data:
             AdditionalVisitor.objects.create(participants=appointment, **participant_data)
