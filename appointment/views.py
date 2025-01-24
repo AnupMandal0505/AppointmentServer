@@ -21,8 +21,8 @@ class BaseAuthentication(viewsets.ViewSet):
 class AppointmentCreateView(BaseAuthentication):
     def create(self, request, *args, **kwargs):
         print(request.data)
-        serializer = AppointmentSerializer(data=request.data)
-
+        # serializer = AppointmentSerializer(data=request.data)
+        serializer = AppointmentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(created_by=request.user, assigned_to=request.user.gm)
             # serializer.save()
