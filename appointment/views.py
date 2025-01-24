@@ -24,7 +24,7 @@ class AppointmentCreateView(BaseAuthentication):
         # serializer = AppointmentSerializer(data=request.data)
         serializer = AppointmentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save(created_by=request.user, assigned_to=request.user.gm)
+            serializer.save()
             # serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
