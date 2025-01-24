@@ -9,11 +9,12 @@ from rest_framework.permissions import IsAuthenticated
 
 class BaseAuthentication(viewsets.ViewSet):
     def list(self, request):
-        token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
-        print(token)  # Token ko print karega
+        # token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+        # print(token)  # Token ko print karega
         # ... baaki code
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+        return True
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
  
 
@@ -74,13 +75,11 @@ class AppointmentUpdateView(BaseAuthentication):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 class DeleteAppointmentView(BaseAuthentication):
     """
     Delete an existing appointment.
     """
-    def destroy(self, request):
+    def list(self, request):
         if not request.GET.get("visitorId"):
             return Response({"error": "Missing 'id' parameter"}, status=status.HTTP_400_BAD_REQUEST)
         try:
