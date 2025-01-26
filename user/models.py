@@ -3,8 +3,8 @@ from django.db import models
 
 
 ROLE_CHOICES = (
-        ('GM', 'gm'),
-        ('PA', 'pa'),
+        ('gm', 'GM'),
+        ('pa', 'PA'),
     )
 class User(AbstractUser):
     # Add other custom fields if needed
@@ -12,7 +12,7 @@ class User(AbstractUser):
     role = models.CharField(
         max_length=10,
         choices=ROLE_CHOICES,
-        default='PA'
+        default='pa'
     )
     gm = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='team_members')
 
