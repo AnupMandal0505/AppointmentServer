@@ -1,26 +1,22 @@
 from django.contrib import admin
-from user.models import User
-# Register your models here.
-from django.contrib.auth.models import Group
+from .models import Message, ChatRoom, Notification
 
-admin_group, created = Group.objects.get_or_create(name='Admin')
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'receiver', 'message', 'timestamp')
+    search_fields = ('sender__username', 'receiver__username', 'message')
+    list_filter = ('sender', 'receiver')
 
+@admin.register(ChatRoom)
+class ChatRoomAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_participants', 'last_message')
 
-from django.contrib.auth.models import Permission
+    def get_participants(self, obj):
+        return ', '.join([user.username for user in obj.participants.all()])
+    get_participants.short_description = 'Participants'
 
-admin_permissions = [
-    'view_user',
-    'add_user',
-    'change_user',
-    'delete_user',
-    # ... any other permissions you want to assign
-]
-
-for permission in admin_permissions:
-    perm = Permission.objects.get(codename=permission)
-    admin_group.permissions.add(perm)
-
-
-
-admin_user = User.objects.get(username='anurag')
-admin_user.groups.add(admin_group)
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'receiver', 'message', 'timestamp', 'read')
+    search_fields = ('sender__username', 'receiver__username', 'message')
+    list_filter = ('sender', 'receiver', 'read')

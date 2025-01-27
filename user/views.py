@@ -4,7 +4,7 @@ from user.serializers.LoginSerializer import LoginSerializer
 from user.serializers.UserSerializer import UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-# from user.models import User
+from django.http import HttpResponse
 from rest_framework import viewsets
 
 class LoginAPI(viewsets.ViewSet):
@@ -56,3 +56,9 @@ class LogoutView(viewsets.ViewSet):
             return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'message': 'Failed to log out'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+def index(request):
+    # Return a HTTP response
+    return HttpResponse("Hello, world! You're at the index page.")

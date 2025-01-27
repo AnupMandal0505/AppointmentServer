@@ -251,10 +251,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Adjust for your frontend's 
     "http://localhost:8081",  # For Android emulator
     "http://10.0.2.2:8081",  # For Android emulator
-    
+
 
 ]
 
+ADMIN_SITE_HEADER = 'Appointment Server Admin'
+ADMIN_SITE_TITLE = 'Appointment Server'
 
 # Add these settings to handle media files
 MEDIA_URL = '/media/'  # URL to access the uploaded files
