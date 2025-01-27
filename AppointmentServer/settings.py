@@ -241,7 +241,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Add CSRF protection
 CSRF_COOKIE_SECURE = True 
 CSRF_TRUSTED_ORIGINS = [
-    # 'https://realtimeupdate.onrender.com',
+    'https://appointmentserver-tgqj.onrender.com',
     "http://localhost:3000",  # Adjust for your frontend's 
 
 ]
@@ -251,6 +251,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Adjust for your frontend's 
     "http://localhost:8081",  # For Android emulator
     "http://10.0.2.2:8081",  # For Android emulator
+    
 
 ]
 
