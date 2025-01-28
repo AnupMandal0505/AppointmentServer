@@ -52,14 +52,14 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'user.User'
 
 
-REST_FRAMEWORK = {
+# REST_FRAMEWORK = {
 
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
     
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     )
 
-}
+# }
 
 # from datetime import timedelta
 
@@ -154,6 +154,12 @@ CHANNEL_LAYERS = {
 
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
 # Add this to your settings.py
 LOGGING = {
     'version': 1,
@@ -243,6 +249,7 @@ CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
     'https://appointmentserver-tgqj.onrender.com',
     "http://localhost:3000",  # Adjust for your frontend's 
+    "http://localhost:8000",  # Adjust for your frontend's 
 
 ]
 

@@ -1,11 +1,12 @@
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from channels.layers import get_channel_layer
+import logging
+
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
+
 from appointment.models import Appointment
 from appointment.Serializers import AppointmentSerializer
-
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
     """
     Signal handler to send WebSocket updates when appointments change
     """
+    print(46)
     try:
         data=Appointment.objects.all()
         serial=AppointmentSerializer.AppointmentSerializer(data, many=True)
@@ -31,6 +33,6 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
         )
         
         action = "created" if created else "updated"
-        logger.info(f"Appointment {action}: {instance.name}")
+        logger.info(f"Appointment {action}: {instance.status}")
     except Exception as e:
         logger.error(f"Error in appointment_update_handler: {str(e)}") 

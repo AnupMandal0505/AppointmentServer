@@ -1,15 +1,18 @@
-from django.contrib import admin
-from django.urls import path, include, re_path
-from user import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path, re_path
+
+from webshocket.views import index, ws_appointments
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.index),
+    path("", index),
     path('api/', include('appointment.urls')),
     path('api/', include('user.urls')),
-    re_path(r'^ws/', include('webshocket.urls')),
+    path('websocket/', include('webshocket.urls')),
+    #path('api/appointments/', ws_appointments, name='ws_appointments'),
+
 
 ]
 
