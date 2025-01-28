@@ -81,7 +81,7 @@
             function connectWebSocket() {
                 // Use the correct WebSocket URL format
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const wsUrl = `wss://https://appointmentserver-tgqj.onrender.com/ws/appointments/`;
+                const wsUrl = `wss://appointmentserver-tgqj.onrender.com/ws/appointments/`;
                 
                 try {
                     socket = new WebSocket(wsUrl);

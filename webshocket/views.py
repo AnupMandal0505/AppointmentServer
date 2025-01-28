@@ -12,6 +12,8 @@ def index(request):
 
 # Create your views here.
 def ws_appointments(request):
-    data=Appointment.objects.all()
-    serial=AppointmentSerializer.AppointmentSerializer(data, many=True)
-    return Response({'RES': serial.data})
+    # data=Appointment.objects.all()
+    # serial=AppointmentSerializer.AppointmentSerializer(data, many=True)
+    # return Response({'RES': serial.data})
+    appointments = Appointment.objects.all()
+    return render(request, 'i.html', {'appointments': appointments})
