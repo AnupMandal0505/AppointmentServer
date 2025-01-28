@@ -81,8 +81,8 @@
             function connectWebSocket() {
                 // Use the correct WebSocket URL format
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const wsUrl = `/ws/appointments/`;
-                const wsFullUrl = `${wsProtocol}//${window.location.host}${wsUrl}`;
+                const wsUrl = `/ws/appointments/?status=pending`;
+                const wsFullUrl = `wss://${window.location.host}${wsUrl}`;
 
                 
                 try {
