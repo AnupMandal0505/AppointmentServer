@@ -47,19 +47,31 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
         Handle appointment updates and send to WebSocket
         """
         try:
-            if 'data' in event:
-                await self.send(text_data=json.dumps({
-                    'type': 'appointment_update',
-                    'data': event['data']
-                }))
-                logger.info("Update sent to client")
-            else:
-                logger.error("Invalid event data")
+            upinitial_data = await self.get_update_data()
+            await self.send(text_data=json.dumps({
+                'type': 'appointment_update',
+                'data': upinitial_data
+            }))
+            logger.info("Update sent to client")
         except Exception as e:
             logger.error(f"Error sending update: {str(e)}")
 
     @database_sync_to_async
     def get_initial_data(self):
+        """
+        Get all appointments for initial data load
+        """
+        try:
+            data = Appointment.objects.all()
+            serializer = AppointmentSerializer(data, many=True)
+            return serializer.data
+        except Exception as e:
+            logger.error(f"Error in get_initial_data: {str(e)}")
+            raise
+
+
+    @database_sync_to_async
+    def get_update_data(self):
         """
         Get all appointments for initial data load
         """

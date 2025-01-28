@@ -50,7 +50,7 @@
         <div id="appointments-list">
             {% for appointment in appointments %}
             <div class="appointment" id="appointment-{{ appointment.id }}">
-                <p>Name: {{ appointment.visitor_name }}</p>
+                <p>Name: {{ appointment.email }}</p>
                 <p>Status: <span class="status-{{ appointment.status|lower }}">{{ appointment.status }}</span></p>
             </div>
             {% endfor %}
@@ -81,7 +81,9 @@
             function connectWebSocket() {
                 // Use the correct WebSocket URL format
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const wsUrl = `wss://appointmentserver-tgqj.onrender.com/ws/appointments/`;
+                const wsUrl = `/ws/appointments/`;
+                const wsFullUrl = `${wsProtocol}//${window.location.host}${wsUrl}`;
+
                 
                 try {
                     socket = new WebSocket(wsUrl);
@@ -145,7 +147,7 @@
                     const appointmentId = `appointment-${appointment.id}`;
                     const existingElement = document.getElementById(appointmentId);
                     const html = `
-                        <p>Name: ${appointment.visitor_name}</p>
+                        <p>Name: ${appointment.email}</p>
                         <p>Status: <span class="status-${appointment.status.toLowerCase()}">${appointment.status}</span></p>
                     `;
 
