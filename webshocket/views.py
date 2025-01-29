@@ -4,8 +4,8 @@ from appointment.models import Appointment
 from rest_framework import serializers, viewsets, status
 from rest_framework.response import Response
 from user.models import User
-from .models import CallNotification,Snacks, SnacksItem
-from webshocket.serializer import ContactListSerializer,CallNotificationSerializer,SnacksSerializer
+from .models import CallNotification,Snacks, Order
+from webshocket.serializer import ContactListSerializer,CallNotificationSerializer,SnacksSerializer,OrderSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
@@ -89,5 +89,9 @@ class SnacksViewSet(viewsets.ReadOnlyModelViewSet):  # Only GET methods allowed
 
 class Order(BaseAuthentication):
     def create(self,request):
-        print(request.data)
-        return Response({"RES":True})
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            # Assign the logged-in user as created_by and updated_by
+            serializer.save(created_by=request.user, updated_by=request.user)
+            return Response({"RES": True, "message": "Order created successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"RES": False, "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
