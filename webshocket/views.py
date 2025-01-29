@@ -31,7 +31,7 @@ def index(request):
 
 
 # API View for creating a notification
-class CallNotifications(viewsets.ViewSet):
+class CallNotifications(BaseAuthentication):
     def create(self,request):
         receiver_id = request.data.get('receiver')
         
