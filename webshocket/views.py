@@ -4,8 +4,8 @@ from appointment.models import Appointment
 from rest_framework import serializers, viewsets, status
 from rest_framework.response import Response
 from user.models import User
-from .models import CallNotification
-from webshocket.serializer import ContactListSerializer,CallNotificationSerializer
+from .models import CallNotification,Snacks, SnacksItem
+from webshocket.serializer import ContactListSerializer,CallNotificationSerializer,SnacksSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
@@ -74,3 +74,14 @@ class AcceptCall(BaseAuthentication):
             return Response({'success': 'Call marked as read'}, status=status.HTTP_200_OK)
         except CallNotification.DoesNotExist:
             return Response({'ERR': 'Call not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Snacks ViewSet
+class SnacksViewSet(viewsets.ReadOnlyModelViewSet):  # Only GET methods allowed
+    queryset = Snacks.objects.all()
+    serializer_class = SnacksSerializer
+
+# SnacksItem ViewSet
+# class SnacksItemViewSet(viewsets.ReadOnlyModelViewSet):  # Only GET methods allowed
+#     queryset = SnacksItem.objects.all()
+#     serializer_class = SnacksItemSerializer
