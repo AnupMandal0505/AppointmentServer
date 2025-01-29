@@ -1,8 +1,10 @@
-from django.urls import path
 
-from . import views
+from django.urls import path,include
+from webshocket.views import CallNotifications,AcceptCall
+from rest_framework.routers import SimpleRouter
 
-urlpatterns = [
-    path('', views.index, name='index'),
-    path('appointments/', views.ws_appointments, name='ws_appointments'),
-]
+webshocket = SimpleRouter()
+webshocket.register(r'call', CallNotifications, basename='call')
+webshocket.register(r'accept_call',AcceptCall , basename='accept_call')
+
+urlpatterns = webshocket.urls

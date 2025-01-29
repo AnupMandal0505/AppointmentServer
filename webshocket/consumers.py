@@ -48,8 +48,10 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
             update_data = await self.get_update_data(filters)
             await self.send(text_data=json.dumps({
                 'type': 'appointment_update',
-                'data': update_data
+                'data': update_data,
+                "filters": filters,
             }))
+
             logger.info("Update sent to client")
         except Exception as e:
             logger.error(f"Error sending update: {str(e)}")

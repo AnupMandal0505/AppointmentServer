@@ -53,6 +53,9 @@ class Appointment(models.Model):
         return f"{self.visitor_name} - {self.date}"
     
 
+    def get_websocket_filters(self, request, obj):
+            # Return filters as a dictionary
+            return {'status': obj.status}
 class AdditionalVisitor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
