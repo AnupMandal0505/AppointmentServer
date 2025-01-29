@@ -85,3 +85,9 @@ class SnacksViewSet(viewsets.ReadOnlyModelViewSet):  # Only GET methods allowed
 # class SnacksItemViewSet(viewsets.ReadOnlyModelViewSet):  # Only GET methods allowed
 #     queryset = SnacksItem.objects.all()
 #     serializer_class = SnacksItemSerializer
+
+
+class Order(BaseAuthentication):
+    def create(self,request):
+        print(request.data)
+        return Response({"RES":True})
