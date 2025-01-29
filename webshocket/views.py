@@ -39,14 +39,14 @@ class CallNotifications(viewsets.ViewSet):
             return Response({'ERR': 'Receiver and message fields are required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            receiver = User.objects.get(id=receiver_id)
+            receiver = User.objects.get(unique_id=receiver_id)
         except User.DoesNotExist:
             return Response({'ERR': 'Receiver not found'}, status=status.HTTP_404_NOT_FOUND)
         
         notification = CallNotification.objects.create(sender=request.user, receiver=receiver)
         serializer = CallNotificationSerializer(notification)
         
-        return Response({"RES":serializer.data})
+        return Response({"RES":True})
     
 
 
