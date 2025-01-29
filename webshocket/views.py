@@ -6,6 +6,14 @@ from rest_framework.response import Response
 from user.models import User
 from .models import CallNotification
 from webshocket.serializer import ContactListSerializer,CallNotificationSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
+class BaseAuthentication(viewsets.ViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
 
 def index(request):
     appointments = Appointment.objects.all()
@@ -44,7 +52,7 @@ class CallNotifications(viewsets.ViewSet):
 
 
 
-class ContactList(viewsets.ViewSet):
+class ContactList(BaseAuthentication):
     def list(self, request):
         try:
             data=User.objects.filter(gm=request.user)
@@ -54,7 +62,7 @@ class ContactList(viewsets.ViewSet):
             return Response({'message': 'Failed to log out'}, status=status.HTTP_400_BAD_REQUEST)
         
 
-class AcceptCall(viewsets.ViewSet):
+class AcceptCall(BaseAuthentication):
     def create(self, request):
         if not request.data.get('call_id'):
             return Response({'ERR': 'Call id required'}, status=status.HTTP_400_BAD_REQUEST)

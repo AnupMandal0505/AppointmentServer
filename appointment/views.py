@@ -8,13 +8,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 class BaseAuthentication(viewsets.ViewSet):
-    def list(self, request):
-        # token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
-        # print(token)  # Token ko print karega
-        # ... baaki code
-        return True
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    # def list(self, request):
+    #     # token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+    #     # print(token)  # Token ko print karega
+    #     # ... baaki code
+    #     return True
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
  
 

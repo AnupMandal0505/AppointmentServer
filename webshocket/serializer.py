@@ -6,7 +6,7 @@ from rest_framework import serializers
 class ContactListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name','last_name','role']
+        fields = ['unique_id', 'first_name','last_name','role']
 
 
 
