@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+import uuid
 
 ROLE_CHOICES = (
         ('gm', 'GM'),
@@ -14,7 +14,9 @@ class User(AbstractUser):
         choices=ROLE_CHOICES,
         default='pa'
     )
-    gm = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='team_members')
+    gm = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='team_members',limit_choices_to={'role': 'gm'})
+    unique_id=models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+
 
     
 

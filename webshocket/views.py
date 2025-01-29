@@ -5,7 +5,7 @@ from rest_framework import serializers, viewsets, status
 from rest_framework.response import Response
 from user.models import User
 from .models import CallNotification
-
+from webshocket.serializer import ContactListSerializer,CallNotificationSerializer
 
 def index(request):
     appointments = Appointment.objects.all()
@@ -21,12 +21,6 @@ def index(request):
 #     return render(request, 'i.html', {'appointments': appointments})
 
 
-
-# Serializer
-class CallNotificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CallNotification
-        fields = '__all__'
 
 # API View for creating a notification
 class CallNotifications(viewsets.ViewSet):
@@ -47,6 +41,18 @@ class CallNotifications(viewsets.ViewSet):
         return Response({"RES":serializer.data})
     
 
+
+
+
+class ContactList(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            data=User.objects.filter(gm=request.user)
+            serial=ContactListSerializer(data,many=True)
+            return Response({'RES':serial.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'message': 'Failed to log out'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class AcceptCall(viewsets.ViewSet):
     def create(self, request):
