@@ -1,10 +1,12 @@
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from channels.layers import get_channel_layer
+import logging
+
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
+
 from appointment.models import Appointment
 from appointment.Serializers import AppointmentSerializer
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,8 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
     """
     try:
         # Fetch all appointments
-        appointments = AppointmentSerializer(list(Appointment.objects.values('id', 'email', 'status')), many=True)
+        appointments = Appointment.objects.all()
+        serialized_data = AppointmentSerializer(appointments, many=True).data
 
         # Get channel layer
         channel_layer = get_channel_layer()
@@ -25,12 +28,11 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
             "appointments",
             {
                 "type": "appointment_update",
-                "data": appointments
+                "data": serialized_data  # Send serialized data
             }
         )
 
         action = "created" if created else "updated"
-        logger.info(f"Appointment {action}: {instance.email}")
+        logger.info(f"Appointment {action}: {instance.visitor_name}")
     except Exception as e:
         logger.error(f"Error in appointment_update_handler: {str(e)}")
-

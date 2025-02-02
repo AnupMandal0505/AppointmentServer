@@ -1,11 +1,13 @@
 import json
 import logging
-from urllib.parse import parse_qs, unquote
-from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
 from appointment.models import Appointment
-from appointment.Serializers import AppointmentSerializer
+from appointment.Serializers.AppointmentSerializer import AppointmentSerializer
+from urllib.parse import parse_qs, unquote
+
 logger = logging.getLogger(__name__)
+
 
 class AppointmentConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -28,7 +30,7 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
             initial_data = await self.get_initial_data()
             await self.send(text_data=json.dumps({
                 'type': 'initial_data',
-                'data': AppointmentSerializer(initial_data,many=True)
+                'data': initial_data
             }))
 
             logger.info(f"WebSocket connected with filters: {self.filters}")
@@ -44,10 +46,14 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
     async def appointment_update(self, event):
         """Send only filtered updates to the client."""
         try:
+            # Convert raw event data into serialized format
+            all_appointments = await self.get_serialized_data(event['data'])
+
+            # Apply filters before sending
             filtered_appointments = [
-                appointment for appointment in event['data']
+                appointment for appointment in all_appointments
                 if all(
-                    str(appointment.get(key)).lower() == str(value).lower()
+                    str(appointment.get(key, "")).lower() == str(value).lower()
                     for key, value in self.filters.items()
                 )
             ]
@@ -55,16 +61,26 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
             if filtered_appointments:
                 await self.send(text_data=json.dumps({
                     'type': 'appointment_update',
-                    'data': AppointmentSerializer(filtered_appointments,many=True)
+                    'data': filtered_appointments
                 }))
                 logger.info("Filtered update sent to client")
         except Exception as e:
             logger.error(f"Error sending update: {str(e)}")
 
     @database_sync_to_async
+    def get_serialized_data(self, raw_data):
+        """Convert raw event data into serialized appointment data."""
+        appointment_ids = [appt["id"] for appt in raw_data]  # Extract IDs
+        appointments = Appointment.objects.filter(id__in=appointment_ids)  # Query objects
+        return AppointmentSerializer(appointments, many=True).data  # Serialize
+
+
+    @database_sync_to_async
     def get_initial_data(self):
-        """Fetch only the appointments matching provided filters."""
-        return list(Appointment.objects.filter(**self.filters).values('id', 'email', 'status'))
+        """Fetch and serialize filtered appointments."""
+        appointments = Appointment.objects.filter(**self.filters)
+        return AppointmentSerializer(appointments, many=True).data
+
 
     def parse_query_params(self):
         """Parse all query parameters from the WebSocket URL."""
@@ -82,3 +98,4 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
         except (json.JSONDecodeError, ValueError) as e:
             logger.error(f"Error decoding filter: {str(e)}")
             return {}
+
