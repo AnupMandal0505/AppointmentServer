@@ -64,6 +64,13 @@
             let reconnectAttempts = 0;
             const maxReconnectAttempts = 5;
             let socket = null;
+            const filters = {
+                status: "pending",
+                email: "manoraj.mn@gmail.in"
+            };
+
+            // Encode filter as JSON and URL encode it
+            const encodedFilter = encodeURIComponent(JSON.stringify(filters));
 
             // Check WebSocket support
             if (!('WebSocket' in window)) {
@@ -81,7 +88,7 @@
             function connectWebSocket() {
                 // Use the correct WebSocket URL format
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const wsUrl = `/ws/appointments/?status=pending`;
+                const wsUrl = `/ws/appointments/?filter=${encodedFilter}`;
                 const wsFullUrl = `wss://${window.location.host}${wsUrl}`;
 
                 
