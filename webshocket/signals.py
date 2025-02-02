@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from appointment.models import Appointment
+from appointment.Serializers import AppointmentSerializer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
     """
     try:
         # Fetch all appointments
-        appointments = list(Appointment.objects.values('id', 'email', 'status'))
+        appointments = AppointmentSerializer(list(Appointment.objects.values('id', 'email', 'status')), many=True)
 
         # Get channel layer
         channel_layer = get_channel_layer()
