@@ -14,7 +14,7 @@ class ItemInline(admin.TabularInline):  # Use StackedInline for a vertical layou
 @admin.register(Appointment)
 class VisitorsAdmin(admin.ModelAdmin):
     inlines = [ItemInline]
-    list_display = ('visitor_name',"id")
+    list_display = ('visitor_name',"id","email")
 
     # def save_model(self, request, obj, form, change):
     #     try:

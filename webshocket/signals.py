@@ -13,28 +13,27 @@ logger = logging.getLogger(__name__)
 @receiver([post_save, post_delete], sender=Appointment)
 def appointment_update_handler(sender, instance=None, created=False, **kwargs):
     """
-    Signal handler to send WebSocket updates when appointments change.
+    Signal handler to send WebSocket updates when appointments change
     """
+    print(46)
     try:
-        # Fetch all appointments
-        appointments = Appointment.objects.all()
-        serialized_data = AppointmentSerializer(appointments, many=True).data
-
+        data=Appointment.objects.all()
+        serial=AppointmentSerializer.AppointmentSerializer(data, many=True)
+        
         # Get channel layer
         channel_layer = get_channel_layer()
-
+        
         # Send update to all clients
         async_to_sync(channel_layer.group_send)(
             "appointments",
             {
                 "type": "appointment_update",
-                "data": serialized_data  # Send serialized data
+                "data": serial.data
             }
         )
-
+        
         action = "created" if created else "updated"
-        logger.info(f"Channel Layer: {channel_layer}")
-        logger.info(f"Serialized Data: {serialized_data}")
+        logger.info(f"Appointment {action}: {instance.status}")
     except Exception as e:
-        logger.error(f"Error in appointment_update_handler: {str(e)}")
-
+        logger.error(f"Error in appointment_update_handler: {str(e)}") 
+        

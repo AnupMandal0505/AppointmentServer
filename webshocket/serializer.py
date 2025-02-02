@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from user.models import User
 from webshocket.models import CallNotification, Snacks, SnacksItem,Order
 from rest_framework import serializers
-
+from appointment.models import Appointment
 class ContactListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -35,3 +35,8 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ["id", "items", "status", "created_by", "updated_by", "created_at", "updated_at"]
         read_only_fields = ["id", "created_at", "updated_at"]  # Auto-generated fields
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = '__all__'
