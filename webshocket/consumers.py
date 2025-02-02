@@ -4,7 +4,7 @@ from urllib.parse import parse_qs, unquote
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from appointment.models import Appointment
-
+from appointment.Serializers import AppointmentSerializer
 logger = logging.getLogger(__name__)
 
 class AppointmentConsumer(AsyncWebsocketConsumer):
@@ -28,7 +28,7 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
             initial_data = await self.get_initial_data()
             await self.send(text_data=json.dumps({
                 'type': 'initial_data',
-                'data': initial_data
+                'data': AppointmentSerializer(initial_data,many=True)
             }))
 
             logger.info(f"WebSocket connected with filters: {self.filters}")
@@ -55,7 +55,7 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
             if filtered_appointments:
                 await self.send(text_data=json.dumps({
                     'type': 'appointment_update',
-                    'data': filtered_appointments
+                    'data': AppointmentSerializer(filtered_appointments,many=True)
                 }))
                 logger.info("Filtered update sent to client")
         except Exception as e:
