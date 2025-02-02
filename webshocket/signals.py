@@ -33,6 +33,8 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
         )
 
         action = "created" if created else "updated"
-        logger.info(f"Appointment {action}: {instance.visitor_name}")
+        logger.info(f"Channel Layer: {channel_layer}")
+        logger.info(f"Serialized Data: {serialized_data}")
     except Exception as e:
         logger.error(f"Error in appointment_update_handler: {str(e)}")
+

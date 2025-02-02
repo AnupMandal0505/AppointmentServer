@@ -69,10 +69,17 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_serialized_data(self, raw_data):
-        """Convert raw event data into serialized appointment data."""
-        appointment_ids = [appt["id"] for appt in raw_data]  # Extract IDs
-        appointments = Appointment.objects.filter(id__in=appointment_ids)  # Query objects
-        return AppointmentSerializer(appointments, many=True).data  # Serialize
+        if not isinstance(raw_data, list):  # Ensure it's a list
+            return []
+        
+        try:
+            appointment_ids = [appt["id"] for appt in raw_data if "id" in appt]  
+            appointments = Appointment.objects.filter(id__in=appointment_ids)  
+            return AppointmentSerializer(appointments, many=True).data  
+        except Exception as e:
+            logger.error(f"Error in get_serialized_data: {e}")
+            return []
+
 
 
     @database_sync_to_async
