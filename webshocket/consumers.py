@@ -64,7 +64,7 @@ class AppointmentConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_initial_data(self):
         """Fetch only the appointments matching provided filters."""
-        return list(Appointment.objects.filter(**self.filters).values('id', 'name', 'status'))
+        return list(Appointment.objects.filter(**self.filters).values('id', 'email', 'status'))
 
     def parse_query_params(self):
         """Parse all query parameters from the WebSocket URL."""

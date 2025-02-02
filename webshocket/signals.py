@@ -14,7 +14,7 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
     """
     try:
         # Fetch all appointments
-        appointments = list(Appointment.objects.values('id', 'name', 'status'))
+        appointments = list(Appointment.objects.values('id', 'email', 'status'))
 
         # Get channel layer
         channel_layer = get_channel_layer()
@@ -29,7 +29,7 @@ def appointment_update_handler(sender, instance=None, created=False, **kwargs):
         )
 
         action = "created" if created else "updated"
-        logger.info(f"Appointment {action}: {instance.name}")
+        logger.info(f"Appointment {action}: {instance.email}")
     except Exception as e:
         logger.error(f"Error in appointment_update_handler: {str(e)}")
 
