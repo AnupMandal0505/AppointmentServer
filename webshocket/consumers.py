@@ -3,7 +3,7 @@ import logging
 from urllib.parse import parse_qs, unquote
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import Appointment
+from appointment.models import Appointment
 
 logger = logging.getLogger(__name__)
 
