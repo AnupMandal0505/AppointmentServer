@@ -14,9 +14,9 @@ class LoginAPI(viewsets.ViewSet):
             serializer = LoginSerializer(data=data)
 
             if serializer.is_valid():
-                username = data['username']
+                phone = data['username']
                 password = data['password']
-                user = authenticate(username=username, password=password)
+                user = authenticate(phone=phone, password=password)
 
                 if user is None:
                     return self.error_response('invalid_password', 'Invalid password')
