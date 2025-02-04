@@ -110,7 +110,7 @@
             }
 
             function connectWebSocket() {
-                const wsUrl = `ws://${window.location.host}/ws/appointments/?filter=${encodedFilter}`;
+                const wsUrl = `ws://appointmentserver-tgqj.onrender.com/ws/appointments/?filter=${encodedFilter}`;
                 try {
                     socket = new WebSocket(wsUrl);
                     setupWebSocketHandlers();
