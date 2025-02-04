@@ -59,6 +59,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
                 representation['visitor_img'] = full_image_url
                 
             representation['assigned_to'] = instance.assigned_to.phone  # Example: Including just the phone
-            representation['created_by'] = instance.assigned_to.phone  # Example: Including just the phone
+            representation['created_by'] = instance.created_by.phone  # Example: Including just the phone
 
             return representation
