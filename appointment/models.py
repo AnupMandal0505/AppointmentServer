@@ -46,6 +46,9 @@ class Appointment(models.Model):
         return f"{self.visitor_name} - {self.date}"
     
     
+    class Meta:
+        db_table = "appointment"
+
 class AdditionalVisitor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
@@ -53,6 +56,9 @@ class AdditionalVisitor(models.Model):
     participants = models.ForeignKey(Appointment,on_delete=models.CASCADE, related_name="additional_visitor",default=None)  # Multiple participants
     img = models.ImageField(upload_to='additional_visitor_image/', blank=True)  # 'product_images/' is the folder where the image will be saved
 
-    
+
     def __str__(self):
         return self.name
+    
+    class Meta:
+        db_table = "additional_visitor"
