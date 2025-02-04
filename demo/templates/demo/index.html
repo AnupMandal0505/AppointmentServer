@@ -9,7 +9,17 @@
 
     <!-- // index.html -->
 <script>
-    var socket = new WebSocket('ws://appointmentserver-tgqj.onrender.com/ws/');
+    // const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+    // const wsUrl = `${wsProtocol}${window.location.host}/ws/`;
+    // const socket = new WebSocket(wsUrl);
+
+    const wsUrl = `wss://appointmentserver-tgqj.onrender.com/ws/`;
+    const socket = new WebSocket(wsUrl);
+
+
+
+
+    // var socket = new WebSocket('ws://localhost:8000/ws/');
 
         socket.onopen = function(event) {
             console.log("WebSocket connected!");
