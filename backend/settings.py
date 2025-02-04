@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'corsheaders',
-    'myapp',
+    'demo',
+    'authuser',
+    'appointment',
 ]
 
 MIDDLEWARE = [
@@ -82,12 +84,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 
-import dj_database_url
+# import dj_database_url
+
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgresql://windowapplication_user:MZDyGP4TO725RFs2yAg6t4S1LMsUStwk@dpg-cu101152ng1s73e46nd0-a.oregon-postgres.render.com/windowapplication')
+# }
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://windowapplication_user:MZDyGP4TO725RFs2yAg6t4S1LMsUStwk@dpg-cu101152ng1s73e46nd0-a.oregon-postgres.render.com/windowapplication')
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
-
+AUTH_USER_MODEL = "authuser.CustomUser"
 
 
 
