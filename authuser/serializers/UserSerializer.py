@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ['password', 'last_login', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'groups', 'user_permissions']
 
 class UpdateProfileSerializer(serializers.ModelSerializer):
-    phone = serializers.IntegerField(read_only=True)  # Mark username as read-only
+    username = serializers.IntegerField(read_only=True)  # Mark username as read-only
     id = serializers.IntegerField(read_only=True)          # Prevent `id` from being updated
 
     class Meta:

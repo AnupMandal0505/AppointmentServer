@@ -9,17 +9,7 @@
 
     <!-- // index.html -->
 <script>
-    // const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-    // const wsUrl = `${wsProtocol}${window.location.host}/ws/`;
-    // const socket = new WebSocket(wsUrl);
-
-    const wsUrl = `wss://appointmentserver-tgqj.onrender.com/ws/`;
-    const socket = new WebSocket(wsUrl);
-
-
-
-
-    // var socket = new WebSocket('ws://localhost:8000/ws/');
+    var socket = new WebSocket('wss://appointmentserver-tgqj.onrender.com/ws/');
 
         socket.onopen = function(event) {
             console.log("WebSocket connected!");
@@ -27,7 +17,7 @@
             // Send filter parameters
             socket.send(JSON.stringify({
                 status: "pending",
-                date: "2024-02-04",  // YYYY-MM-DD format
+                // date: "2024-02-04",  // YYYY-MM-DD format
                 phone: "74810099937",
                 role: "created_by"  // OR "created_by"
             }));

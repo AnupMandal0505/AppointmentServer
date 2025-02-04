@@ -1,7 +1,9 @@
-from rest_framework import serializers
-from appointment.models import Appointment, AdditionalVisitor
-from django.urls import reverse
 from django.conf import settings
+from django.urls import reverse
+from rest_framework import serializers
+
+from appointment.models import AdditionalVisitor, Appointment
+
 
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
